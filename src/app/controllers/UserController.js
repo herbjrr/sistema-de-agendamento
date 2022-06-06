@@ -59,7 +59,7 @@ class UserController {
         // find by primary key
         const user = await User.findByPk(req.userId)
 
-        if (email && email !== user.email) {
+        if (email && email !== user.email()) {
             const userExists = await User.findOne({
                 where: { email }
             })
