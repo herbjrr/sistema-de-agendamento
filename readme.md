@@ -8,6 +8,7 @@ pacotes npm (npm i pacote) utilizados:
     - bcryptjs;
     - jsonwebtoken(jwt - validação de senha);
     - yup (validador);
+    - multer;
 
 Outros:
     - Docker: isola ambientes em microcontainers, ajudando a controlar os serviços externos;

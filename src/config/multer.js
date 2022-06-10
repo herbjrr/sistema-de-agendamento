@@ -11,10 +11,10 @@ export default {
         filename: (req, file, cb) => {
             /* cria 10 caracteres aleatorios / gera criptografia */
             crypto.randomBytes(10, (err, res) => {
-                if (err) return cb(err);
+                if (err) return cd(err);
 
                 return cb(null, res.toString('hex') + extname(file.originalname))
             })
-        }
+        },
     })
 }
