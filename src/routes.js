@@ -1,44 +1,54 @@
-// const { Router } = require('express');
-import { Router } from "express";
-import multer from "multer";
-import multerConfig from "./config/multer";
+import { Router } from 'express';
+import multer from 'multer';
 
-import UserController from "./app/controllers/UserController";
-import SessionController from "./app/controllers/SessionController";
-import FileController from "./app/controllers/FileController";
-import CollaboratorController from "./app/controllers/CollaboratorController";
-import AppointmentController from "./app/controllers/AppointmentController";
-import ScheduleController from "./app/controllers/ScheduleController";
+import multerConfig from './config/multer';
 
-import Database from "./database/index";
-import authMiddleware from "./app/middlewares/auth";
+import UserController from './app/controllers/UserController';
+import SessionController from './app/controllers/SessionController';
+import FileController from './app/controllers/FileController';
+import CollaboratorController from './app/controllers/CollaboratorController';
+import AppointmentController from './app/controllers/AppointmentController';
+import ScheduleController from './app/controllers/ScheduleController';
+import NotificationsController from './app/controllers/NotificationsController';
+
+import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
-const upload = multer(multerConfig);
+const upload = multer(multerConfig)
 
-// rotas do localhost:3333/...
 
-routes.post("/users", UserController.store);
-routes.post("/session", SessionController.store);
+routes.get('/', (req, res) => {
+  res.json({message: 'Okay'})
+})
 
-// rotas autentticadas
-routes.use(authMiddleware);
-routes.put("/users", UserController.update);
+routes.post('/users', UserController.store)
+routes.post('/session', SessionController.store)
 
-// rota de agendamento
+// Rotas autenticadas
+routes.use(authMiddleware)
+routes.put('/users',  UserController.update)
+
+// Rota de agendamento
 routes.post('/appointments', AppointmentController.store)
 
-// listagem de agendamento
+// Listagem de agendamento
 routes.get('/appointments', AppointmentController.index)
 
-// lista de colaboradores
+// Lista todos os colaboradores
 routes.get('/collaborator', CollaboratorController.index)
 
-// listagem de agendamentos colaboradores
+// Listagem de agendamentos colaborador
 routes.get('/schedule', ScheduleController.index)
 
-// upload de arquivos
-routes.post("/files", upload.single("file"), FileController.store);
+// Listagem de notificações
+routes.get('/notifications', NotificationsController.index)
 
-// module.exports = routes;
+// Marcar como lida
+routes.put('/notifications/:id', NotificationsController.update)
+
+// Upload de arquivos
+// O arquivo deve ser upado primeiro para poder ser associado 
+// ao campo "photo_id" do put.../users
+routes.post('/files', upload.single('file'), FileController.store);
+
 export default routes;
